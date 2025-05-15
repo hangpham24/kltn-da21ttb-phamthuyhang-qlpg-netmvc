@@ -345,11 +345,6 @@ namespace KLTN.Data.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<string>("TenGoiTap")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
                     b.Property<int>("ThoiHanThang")
                         .HasColumnType("int");
 
@@ -434,6 +429,9 @@ namespace KLTN.Data.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
+                    b.Property<decimal?>("GiaTien")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<string>("HoTen")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
@@ -444,11 +442,6 @@ namespace KLTN.Data.Migrations
                     b.Property<string>("SoDienThoai")
                         .HasMaxLength(15)
                         .HasColumnType("nvarchar(15)");
-
-                    b.Property<string>("TrangThai")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
 
                     b.HasKey("MaKVL");
 
@@ -593,8 +586,8 @@ namespace KLTN.Data.Migrations
 
                     b.Property<string>("NgayTrongTuan")
                         .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<int>("SoLuongHienTai")
                         .HasColumnType("int");
@@ -603,11 +596,6 @@ namespace KLTN.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("TenLop")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("TenLopHoc")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");

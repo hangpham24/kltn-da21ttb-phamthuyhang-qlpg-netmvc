@@ -560,3 +560,4 @@ D:\KLTN\KLTN\KLTN\bin\Debug\net8.0\runtimes\win\lib\net7.0\System.Drawing.Common
 D:\KLTN\KLTN\KLTN\bin\Debug\net8.0\runtimes\win\lib\net7.0\System.Security.Cryptography.ProtectedData.dll
 D:\KLTN\KLTN\KLTN\bin\Debug\net8.0\runtimes\win\lib\net7.0\System.Windows.Extensions.dll
 D:\KLTN\KLTN\KLTN\bin\Debug\net8.0\BCrypt.Net-Next.dll
+D:\KLTN\KLTN\KLTN\obj\Debug\net8.0\KLTN.sourcelink.json

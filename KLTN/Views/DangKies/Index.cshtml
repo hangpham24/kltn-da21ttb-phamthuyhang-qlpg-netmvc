@@ -1,95 +1,78 @@
 ﻿@model IEnumerable<KLTN.Models.Database.DangKy>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Danh sách đăng ký";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h1>Index</h1>
+<div class="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6">
+    <div class="flex justify-between items-center mb-6">
+        <div>
+            <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Danh sách đăng ký</h2>
+            <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">Quản lý thông tin đăng ký tập luyện</p>
+        </div>
+        <a asp-action="Create" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+            <i class="fas fa-plus mr-2"></i>Thêm đăng ký mới
+        </a>
+    </div>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.NgayBatDau)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.NgayKetThuc)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.LoaiDangKy)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SoBuoi)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TrangThai)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.GhiChu)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.NgayDangKy)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ThanhVien)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.KhachVangLai)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.GoiTap)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.LopHoc)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.NgayBatDau)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NgayKetThuc)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LoaiDangKy)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SoBuoi)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TrangThai)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.GhiChu)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NgayDangKy)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ThanhVien.MaTV)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.KhachVangLai.MaKVL)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.GoiTap.TenGoi)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LopHoc.NgayTrongTuan)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.MaDangKy">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.MaDangKy">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.MaDangKy">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+    <div class="relative overflow-x-auto">
+        <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <tr>
+                    <th scope="col" class="px-6 py-3">@Html.DisplayNameFor(model => model.NgayBatDau)</th>
+                    <th scope="col" class="px-6 py-3">@Html.DisplayNameFor(model => model.NgayKetThuc)</th>
+                    <th scope="col" class="px-6 py-3">@Html.DisplayNameFor(model => model.LoaiDangKy)</th>
+                    <th scope="col" class="px-6 py-3">@Html.DisplayNameFor(model => model.SoBuoi)</th>
+                    <th scope="col" class="px-6 py-3">@Html.DisplayNameFor(model => model.TrangThai)</th>
+                    <th scope="col" class="px-6 py-3">@Html.DisplayNameFor(model => model.GhiChu)</th>
+                    <th scope="col" class="px-6 py-3">@Html.DisplayNameFor(model => model.NgayDangKy)</th>
+                    <th scope="col" class="px-6 py-3">@Html.DisplayNameFor(model => model.ThanhVien)</th>
+                    <th scope="col" class="px-6 py-3">@Html.DisplayNameFor(model => model.KhachVangLai)</th>
+                    <th scope="col" class="px-6 py-3">@Html.DisplayNameFor(model => model.GoiTap)</th>
+                    <th scope="col" class="px-6 py-3">@Html.DisplayNameFor(model => model.LopHoc)</th>
+                    <th scope="col" class="px-6 py-3">
+                        <span class="sr-only">Thao tác</span>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                        <td class="px-6 py-4">@Html.DisplayFor(modelItem => item.NgayBatDau)</td>
+                        <td class="px-6 py-4">@Html.DisplayFor(modelItem => item.NgayKetThuc)</td>
+                        <td class="px-6 py-4">@Html.DisplayFor(modelItem => item.LoaiDangKy)</td>
+                        <td class="px-6 py-4">@Html.DisplayFor(modelItem => item.SoBuoi)</td>
+                        <td class="px-6 py-4">
+                            @{
+                                var statusClass = item.TrangThai == "DangHoatDong" ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300" : "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300";
+                                var statusText = item.TrangThai == "DangHoatDong" ? "Đang hoạt động" : "Đã kết thúc";
+                            }
+                            <span class="@statusClass text-xs font-medium px-2.5 py-0.5 rounded">@statusText</span>
+                        </td>
+                        <td class="px-6 py-4">@Html.DisplayFor(modelItem => item.GhiChu)</td>
+                        <td class="px-6 py-4">@Html.DisplayFor(modelItem => item.NgayDangKy)</td>
+                        <td class="px-6 py-4">@Html.DisplayFor(modelItem => item.ThanhVien.MaTV)</td>
+                        <td class="px-6 py-4">@Html.DisplayFor(modelItem => item.KhachVangLai.MaKVL)</td>
+                        <td class="px-6 py-4">@Html.DisplayFor(modelItem => item.GoiTap.TenGoi)</td>
+                        <td class="px-6 py-4">@Html.DisplayFor(modelItem => item.LopHoc.TenLop)</td>
+                        <td class="px-6 py-4">
+                            <div class="flex items-center space-x-3">
+                                <a asp-action="Edit" asp-route-id="@item.MaDangKy" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-xs px-3 py-1.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                                    <i class="fas fa-edit mr-1"></i>Sửa
+                                </a>
+                                <a asp-action="Details" asp-route-id="@item.MaDangKy" class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-xs px-3 py-1.5 dark:bg-green-600 dark:hover:bg-green-700 focus:outline-none dark:focus:ring-green-800">
+                                    <i class="fas fa-info-circle mr-1"></i>Chi tiết
+                                </a>
+                                <a asp-action="Delete" asp-route-id="@item.MaDangKy" class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-xs px-3 py-1.5 dark:bg-red-600 dark:hover:bg-red-700 focus:outline-none dark:focus:ring-red-800">
+                                    <i class="fas fa-trash-alt mr-1"></i>Xóa
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

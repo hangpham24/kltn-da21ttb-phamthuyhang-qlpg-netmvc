@@ -57,7 +57,7 @@ namespace KLTN.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("MaGoi,TenGoi,TenGoiTap,MoTa,ThoiHanThang,GiaTien,SoLanTapToiDa,MaKM")] GoiTap goiTap)
+        public async Task<IActionResult> Create([Bind("MaGoi,TenGoi,MoTa,ThoiHanThang,GiaTien,SoLanTapToiDa,MaKM")] GoiTap goiTap)
         {
             if (ModelState.IsValid)
             {
@@ -91,7 +91,7 @@ namespace KLTN.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("MaGoi,TenGoi,TenGoiTap,MoTa,ThoiHanThang,GiaTien,SoLanTapToiDa,MaKM")] GoiTap goiTap)
+        public async Task<IActionResult> Edit(int id, [Bind("MaGoi,TenGoi,MoTa,ThoiHanThang,GiaTien,SoLanTapToiDa,MaKM")] GoiTap goiTap)
         {
             if (id != goiTap.MaGoi)
             {

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using KLTN.Data;
 using KLTN.Models.Database;
+using KLTN.Models.ViewModels;
 
 namespace KLTN.Controllers
 {
@@ -48,8 +49,16 @@ namespace KLTN.Controllers
         // GET: LopHocs/Create
         public IActionResult Create()
         {
-            ViewData["MaPT"] = new SelectList(_context.HuanLuyenViens, "MaPT", "MaPT");
-            return View();
+            var huanLuyenViens = _context.HuanLuyenViens.ToList();
+            if (huanLuyenViens != null && huanLuyenViens.Any())
+            {
+                ViewBag.MaPT = new SelectList(huanLuyenViens, "MaPT", "HoTen");
+            }
+            else
+            {
+                ViewBag.MaPT = new SelectList(new List<SelectListItem>());
+            }
+            return View(new LopHocViewModel());
         }
 
         // POST: LopHocs/Create
@@ -57,16 +66,26 @@ namespace KLTN.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("MaLop,TenLop,TenLopHoc,MaPT,ThoiGianBatDau,ThoiGianKetThuc,NgayTrongTuan,SoLuongToiDa,SoLuongHienTai,TrangThai,GhiChu")] LopHoc lopHoc)
+        public async Task<IActionResult> Create([Bind("MaLop,TenLop,MaPT,ThoiGianBatDau,ThoiGianKetThuc,SelectedDays,SoLuongToiDa,SoLuongHienTai,TrangThai,GhiChu")] LopHocViewModel lopHocVM)
         {
             if (ModelState.IsValid)
             {
+                var lopHoc = lopHocVM.ToLopHoc();
                 _context.Add(lopHoc);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["MaPT"] = new SelectList(_context.HuanLuyenViens, "MaPT", "MaPT", lopHoc.MaPT);
-            return View(lopHoc);
+            
+            var huanLuyenViens = _context.HuanLuyenViens.ToList();
+            if (huanLuyenViens != null && huanLuyenViens.Any())
+            {
+                ViewBag.MaPT = new SelectList(huanLuyenViens, "MaPT", "HoTen", lopHocVM.MaPT);
+            }
+            else
+            {
+                ViewBag.MaPT = new SelectList(new List<SelectListItem>());
+            }
+            return View(lopHocVM);
         }
 
         // GET: LopHocs/Edit/5
@@ -82,8 +101,19 @@ namespace KLTN.Controllers
             {
                 return NotFound();
             }
-            ViewData["MaPT"] = new SelectList(_context.HuanLuyenViens, "MaPT", "MaPT", lopHoc.MaPT);
-            return View(lopHoc);
+            
+            var lopHocVM = LopHocViewModel.FromLopHoc(lopHoc);
+            
+            var huanLuyenViens = _context.HuanLuyenViens.ToList();
+            if (huanLuyenViens != null && huanLuyenViens.Any())
+            {
+                ViewBag.MaPT = new SelectList(huanLuyenViens, "MaPT", "HoTen", lopHoc.MaPT);
+            }
+            else
+            {
+                ViewBag.MaPT = new SelectList(new List<SelectListItem>());
+            }
+            return View(lopHocVM);
         }
 
         // POST: LopHocs/Edit/5
@@ -91,9 +121,9 @@ namespace KLTN.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("MaLop,TenLop,TenLopHoc,MaPT,ThoiGianBatDau,ThoiGianKetThuc,NgayTrongTuan,SoLuongToiDa,SoLuongHienTai,TrangThai,GhiChu")] LopHoc lopHoc)
+        public async Task<IActionResult> Edit(int id, [Bind("MaLop,TenLop,MaPT,ThoiGianBatDau,ThoiGianKetThuc,SelectedDays,SoLuongToiDa,SoLuongHienTai,TrangThai,GhiChu")] LopHocViewModel lopHocVM)
         {
-            if (id != lopHoc.MaLop)
+            if (id != lopHocVM.MaLop)
             {
                 return NotFound();
             }
@@ -102,12 +132,13 @@ namespace KLTN.Controllers
             {
                 try
                 {
+                    var lopHoc = lopHocVM.ToLopHoc();
                     _context.Update(lopHoc);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!LopHocExists(lopHoc.MaLop))
+                    if (!LopHocExists(lopHocVM.MaLop))
                     {
                         return NotFound();
                     }
@@ -118,8 +149,17 @@ namespace KLTN.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["MaPT"] = new SelectList(_context.HuanLuyenViens, "MaPT", "MaPT", lopHoc.MaPT);
-            return View(lopHoc);
+            
+            var huanLuyenViens = _context.HuanLuyenViens.ToList();
+            if (huanLuyenViens != null && huanLuyenViens.Any())
+            {
+                ViewBag.MaPT = new SelectList(huanLuyenViens, "MaPT", "HoTen", lopHocVM.MaPT);
+            }
+            else
+            {
+                ViewBag.MaPT = new SelectList(new List<SelectListItem>());
+            }
+            return View(lopHocVM);
         }
 
         // GET: LopHocs/Delete/5

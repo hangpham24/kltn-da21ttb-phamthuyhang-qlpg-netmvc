@@ -1,0 +1,116 @@
+﻿@model KLTN.Models.Database.TaiKhoan
+
+@{
+    ViewData["Title"] = "Xóa tài khoản";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 mb-6">
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Xóa tài khoản</h1>
+        <a asp-action="Index" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 focus:ring-4 focus:ring-gray-200 font-medium dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600">
+            <i class="bi bi-arrow-left mr-2"></i>Quay lại danh sách
+        </a>
+    </div>
+
+    <div class="p-4 mb-6 text-red-800 border-l-4 border-red-300 bg-red-50 dark:text-red-400 dark:border-red-800 dark:bg-gray-800">
+        <div class="flex items-center">
+            <i class="bi bi-exclamation-triangle-fill flex-shrink-0 w-5 h-5"></i>
+            <div class="ml-3 text-sm font-medium">
+                Bạn có chắc chắn muốn xóa tài khoản này?
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+                <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Thông tin tài khoản</h2>
+                <div class="space-y-4">
+                    <div>
+                        <h3 class="text-sm font-medium text-gray-500 dark:text-gray-400">
+                            @Html.DisplayNameFor(model => model.TenDangNhap)
+                        </h3>
+                        <p class="mt-1 text-gray-900 dark:text-white">
+                            @Html.DisplayFor(model => model.TenDangNhap)
+                        </p>
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-medium text-gray-500 dark:text-gray-400">
+                            @Html.DisplayNameFor(model => model.TrangThai)
+                        </h3>
+                        <p class="mt-1">
+                            @if (Model.TrangThai == "HoatDong")
+                            {
+                                <span class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">
+                                    Hoạt động
+                                </span>
+                            }
+                            else if (Model.TrangThai == "Khoa")
+                            {
+                                <span class="bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">
+                                    Khóa
+                                </span>
+                            }
+                            else if (Model.TrangThai == "ChuaKichHoat")
+                            {
+                                <span class="bg-yellow-100 text-yellow-800 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300">
+                                    Chưa kích hoạt
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="bg-gray-100 text-gray-800 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300">
+                                    @Model.TrangThai
+                                </span>
+                            }
+                        </p>
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-medium text-gray-500 dark:text-gray-400">
+                            @Html.DisplayNameFor(model => model.Quyen)
+                        </h3>
+                        <p class="mt-1 text-gray-900 dark:text-white">
+                            @Html.DisplayFor(model => model.Quyen.TenQuyen)
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Thông tin thời gian</h2>
+                <div class="space-y-4">
+                    <div>
+                        <h3 class="text-sm font-medium text-gray-500 dark:text-gray-400">
+                            @Html.DisplayNameFor(model => model.NgayTao)
+                        </h3>
+                        <p class="mt-1 text-gray-900 dark:text-white">
+                            @Model.NgayTao.ToString("dd/MM/yyyy HH:mm:ss")
+                        </p>
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-medium text-gray-500 dark:text-gray-400">
+                            @Html.DisplayNameFor(model => model.LanDangNhapCuoi)
+                        </h3>
+                        <p class="mt-1 text-gray-900 dark:text-white">
+                            @(Model.LanDangNhapCuoi.HasValue ? Model.LanDangNhapCuoi.Value.ToString("dd/MM/yyyy HH:mm:ss") : "Chưa đăng nhập")
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-6 pt-6 border-t border-gray-200 dark:border-gray-600">
+            <form asp-action="Delete" class="flex justify-end">
+                <input type="hidden" asp-for="MaTK" />
+                <div class="flex gap-2">
+                    <a asp-action="Index" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 focus:ring-4 focus:ring-gray-200 font-medium dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600">
+                        Hủy
+                    </a>
+                    <button type="submit" class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 focus:ring-4 focus:ring-red-300 font-medium">
+                        <i class="bi bi-trash mr-2"></i>Xác nhận xóa
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

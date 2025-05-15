@@ -30,10 +30,10 @@ namespace KLTN.Models.Database
         [StringLength(500)]
         [Display(Name = "Ghi chú")]
         public string? GhiChu { get; set; }
-
-        [StringLength(20)]
-        [Display(Name = "Trạng thái")]
-        public string TrangThai { get; set; } = "HoatDong";
+        
+        [Column(TypeName = "decimal(18,2)")]
+        [Display(Name = "Giá buổi tập")]
+        public decimal? GiaTien { get; set; }
 
         // Navigation properties
         public virtual ICollection<DangKy>? DangKys { get; set; }

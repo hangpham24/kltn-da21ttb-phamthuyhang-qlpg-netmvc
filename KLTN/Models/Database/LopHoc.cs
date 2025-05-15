@@ -15,11 +15,6 @@ namespace KLTN.Models.Database
         [Display(Name = "Tên lớp")]
         public string TenLop { get; set; } = string.Empty;
 
-        [Required]
-        [StringLength(100)]
-        [Display(Name = "Tên lớp học")]
-        public string TenLopHoc { get => TenLop; set => TenLop = value; }
-
         [ForeignKey("HuanLuyenVien")]
         [Display(Name = "Huấn luyện viên")]
         public int? MaPT { get; set; }
@@ -35,7 +30,7 @@ namespace KLTN.Models.Database
         public TimeSpan ThoiGianKetThuc { get; set; }
 
         [Required]
-        [StringLength(20)]
+        [StringLength(100)]
         [Display(Name = "Ngày trong tuần")]
         public string NgayTrongTuan { get; set; } = string.Empty;
 

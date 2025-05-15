@@ -12,13 +12,8 @@ namespace KLTN.Models.Database
 
         [Required]
         [StringLength(100)]
-        [Display(Name = "Tên gói")]
-        public string TenGoi { get; set; } = string.Empty;
-
-        [Required]
-        [StringLength(100)]
         [Display(Name = "Tên gói tập")]
-        public string TenGoiTap { get => TenGoi; set => TenGoi = value; }
+        public string TenGoi { get; set; } = string.Empty;
 
         [StringLength(500)]
         [Display(Name = "Mô tả")]

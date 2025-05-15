@@ -53,7 +53,7 @@ namespace KLTN.Controllers
         {
             ViewData["MaGoiTap"] = new SelectList(_context.GoiTap, "MaGoi", "TenGoi");
             ViewData["MaKhachVangLai"] = new SelectList(_context.KhachVangLais, "MaKVL", "MaKVL");
-            ViewData["MaLopHoc"] = new SelectList(_context.LopHoc, "MaLop", "NgayTrongTuan");
+            ViewData["MaLopHoc"] = new SelectList(_context.LopHoc, "MaLop", "TenLop");
             ViewData["MaTV"] = new SelectList(_context.ThanhViens, "MaTV", "MaTV");
             return View();
         }
@@ -73,7 +73,7 @@ namespace KLTN.Controllers
             }
             ViewData["MaGoiTap"] = new SelectList(_context.GoiTap, "MaGoi", "TenGoi", dangKy.MaGoiTap);
             ViewData["MaKhachVangLai"] = new SelectList(_context.KhachVangLais, "MaKVL", "MaKVL", dangKy.MaKhachVangLai);
-            ViewData["MaLopHoc"] = new SelectList(_context.LopHoc, "MaLop", "NgayTrongTuan", dangKy.MaLopHoc);
+            ViewData["MaLopHoc"] = new SelectList(_context.LopHoc, "MaLop", "TenLop", dangKy.MaLopHoc);
             ViewData["MaTV"] = new SelectList(_context.ThanhViens, "MaTV", "MaTV", dangKy.MaTV);
             return View(dangKy);
         }
@@ -93,7 +93,7 @@ namespace KLTN.Controllers
             }
             ViewData["MaGoiTap"] = new SelectList(_context.GoiTap, "MaGoi", "TenGoi", dangKy.MaGoiTap);
             ViewData["MaKhachVangLai"] = new SelectList(_context.KhachVangLais, "MaKVL", "MaKVL", dangKy.MaKhachVangLai);
-            ViewData["MaLopHoc"] = new SelectList(_context.LopHoc, "MaLop", "NgayTrongTuan", dangKy.MaLopHoc);
+            ViewData["MaLopHoc"] = new SelectList(_context.LopHoc, "MaLop", "TenLop", dangKy.MaLopHoc);
             ViewData["MaTV"] = new SelectList(_context.ThanhViens, "MaTV", "MaTV", dangKy.MaTV);
             return View(dangKy);
         }
@@ -132,7 +132,7 @@ namespace KLTN.Controllers
             }
             ViewData["MaGoiTap"] = new SelectList(_context.GoiTap, "MaGoi", "TenGoi", dangKy.MaGoiTap);
             ViewData["MaKhachVangLai"] = new SelectList(_context.KhachVangLais, "MaKVL", "MaKVL", dangKy.MaKhachVangLai);
-            ViewData["MaLopHoc"] = new SelectList(_context.LopHoc, "MaLop", "NgayTrongTuan", dangKy.MaLopHoc);
+            ViewData["MaLopHoc"] = new SelectList(_context.LopHoc, "MaLop", "TenLop", dangKy.MaLopHoc);
             ViewData["MaTV"] = new SelectList(_context.ThanhViens, "MaTV", "MaTV", dangKy.MaTV);
             return View(dangKy);
         }

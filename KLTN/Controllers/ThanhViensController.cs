@@ -7,9 +7,10 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using KLTN.Data;
 using KLTN.Models.Database;
-using BCrypt.Net;
-using System.IO;
+using System.Security.Cryptography;
+using System.Text;
 using Microsoft.AspNetCore.Hosting;
+using System.IO;
 
 namespace KLTN.Controllers
 {
@@ -53,7 +54,7 @@ namespace KLTN.Controllers
         // GET: ThanhViens/Create
         public IActionResult Create()
         {
-            // Không cần hiển thị danh sách tài khoản, vì sẽ tự động tạo
+            ViewData["MaTK"] = new SelectList(_context.TaiKhoans, "MaTK", "MatKhauHash");
             return View();
         }
 
@@ -62,7 +63,7 @@ namespace KLTN.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("MaTV,HoTen,NgaySinh,GioiTinh,SoDienThoai,Email,DiaChi,AvatarFile")] ThanhVien thanhVien)
+        public async Task<IActionResult> Create([Bind("MaTV,HoTen,NgaySinh,GioiTinh,SoDienThoai,Email,DiaChi,NgayDangKy,NgayDangKyTV,AnhDaiDien,TrangThai,TrangThaiTV,AvatarFile")] ThanhVien thanhVien)
         {
             if (ModelState.IsValid)
             {
@@ -82,7 +83,7 @@ namespace KLTN.Controllers
                 }
 
                 // Xử lý upload ảnh đại diện nếu có
-                if (thanhVien.AvatarFile != null)
+                if (thanhVien.AvatarFile != null && thanhVien.AvatarFile.Length > 0)
                 {
                     // Đảm bảo thư mục tồn tại
                     string uploadDir = Path.Combine(_hostEnvironment.WebRootPath, "img", "avt");
@@ -129,7 +130,9 @@ namespace KLTN.Controllers
                 var taiKhoan = new TaiKhoan
                 {
                     TenDangNhap = tenDangNhap,
-                    MatKhauHash = BCrypt.Net.BCrypt.HashPassword(tenDangNhap), // Mã hóa mật khẩu
+                    // Mật khẩu được đặt là email và sau đó băm bằng SHA256
+                    // Điều này đảm bảo khi người dùng đăng nhập với email và mật khẩu là email, nó sẽ khớp
+                    MatKhauHash = HashPassword(tenDangNhap),
                     MaQuyen = quyenThanhVien.MaQuyen,
                     TrangThai = "HoatDong",
                     NgayTao = DateTime.Now
@@ -149,6 +152,7 @@ namespace KLTN.Controllers
                 TempData["SuccessMessage"] = "Đã tạo thành viên và tài khoản thành công. Tên đăng nhập và mật khẩu là email của thành viên.";
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["MaTK"] = new SelectList(_context.TaiKhoans, "MaTK", "MatKhauHash", thanhVien.MaTK);
             return View(thanhVien);
         }
 
@@ -165,7 +169,7 @@ namespace KLTN.Controllers
             {
                 return NotFound();
             }
-            ViewData["MaTK"] = new SelectList(_context.TaiKhoans, "MaTK", "TenDangNhap", thanhVien.MaTK);
+            ViewData["MaTK"] = new SelectList(_context.TaiKhoans, "MaTK", "MatKhauHash", thanhVien.MaTK);
             return View(thanhVien);
         }
 
@@ -174,7 +178,7 @@ namespace KLTN.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("MaTV,HoTen,NgaySinh,GioiTinh,SoDienThoai,Email,DiaChi,AnhDaiDien,MaTK,AvatarFile")] ThanhVien thanhVien)
+        public async Task<IActionResult> Edit(int id, [Bind("MaTV,HoTen,NgaySinh,GioiTinh,SoDienThoai,Email,DiaChi,NgayDangKy,NgayDangKyTV,AnhDaiDien,MaTK,TrangThai,TrangThaiTV")] ThanhVien thanhVien)
         {
             if (id != thanhVien.MaTV)
             {
@@ -185,43 +189,8 @@ namespace KLTN.Controllers
             {
                 try
                 {
-                    // Xử lý upload ảnh đại diện nếu có
-                    if (thanhVien.AvatarFile != null)
-                    {
-                        // Đảm bảo thư mục tồn tại
-                        string uploadDir = Path.Combine(_hostEnvironment.WebRootPath, "img", "avt");
-                        if (!Directory.Exists(uploadDir))
-                        {
-                            Directory.CreateDirectory(uploadDir);
-                        }
-
-                        // Xóa ảnh cũ nếu có
-                        if (!string.IsNullOrEmpty(thanhVien.AnhDaiDien))
-                        {
-                            string oldImagePath = Path.Combine(_hostEnvironment.WebRootPath, thanhVien.AnhDaiDien.TrimStart('/').Replace('/', Path.DirectorySeparatorChar));
-                            if (System.IO.File.Exists(oldImagePath))
-                            {
-                                System.IO.File.Delete(oldImagePath);
-                            }
-                        }
-
-                        // Tạo tên file duy nhất
-                        string fileName = Guid.NewGuid().ToString() + Path.GetExtension(thanhVien.AvatarFile.FileName);
-                        string filePath = Path.Combine(uploadDir, fileName);
-
-                        // Lưu file ảnh
-                        using (var fileStream = new FileStream(filePath, FileMode.Create))
-                        {
-                            await thanhVien.AvatarFile.CopyToAsync(fileStream);
-                        }
-
-                        // Lưu đường dẫn vào database
-                        thanhVien.AnhDaiDien = "/img/avt/" + fileName;
-                    }
-
                     _context.Update(thanhVien);
                     await _context.SaveChangesAsync();
-                    TempData["SuccessMessage"] = "Cập nhật thông tin thành viên thành công.";
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -236,7 +205,7 @@ namespace KLTN.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["MaTK"] = new SelectList(_context.TaiKhoans, "MaTK", "TenDangNhap", thanhVien.MaTK);
+            ViewData["MaTK"] = new SelectList(_context.TaiKhoans, "MaTK", "MatKhauHash", thanhVien.MaTK);
             return View(thanhVien);
         }
 
@@ -267,27 +236,41 @@ namespace KLTN.Controllers
             var thanhVien = await _context.ThanhViens.FindAsync(id);
             if (thanhVien != null)
             {
-                // Xóa ảnh đại diện nếu có
-                if (!string.IsNullOrEmpty(thanhVien.AnhDaiDien))
-                {
-                    string imagePath = Path.Combine(_hostEnvironment.WebRootPath, thanhVien.AnhDaiDien.TrimStart('/').Replace('/', Path.DirectorySeparatorChar));
-                    if (System.IO.File.Exists(imagePath))
-                    {
-                        System.IO.File.Delete(imagePath);
-                    }
-                }
-
                 _context.ThanhViens.Remove(thanhVien);
             }
 
             await _context.SaveChangesAsync();
-            TempData["SuccessMessage"] = "Xóa thành viên thành công.";
             return RedirectToAction(nameof(Index));
         }
 
         private bool ThanhVienExists(int id)
         {
             return _context.ThanhViens.Any(e => e.MaTV == id);
+        }
+
+        // Phương thức để băm mật khẩu bằng SHA256 (giống hệt với AccountController)
+        private string HashPassword(string password)
+        {
+            using (var sha256 = SHA256.Create())
+            {
+                var hashedBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
+                return BitConverter.ToString(hashedBytes).Replace("-", "").ToLower();
+            }
+        }
+
+        // GET: ThanhViens/TestHashPassword
+        public IActionResult TestHashPassword(string password)
+        {
+            if (string.IsNullOrEmpty(password))
+            {
+                password = "mymytran@gmail.com"; // Mật khẩu mẫu để test
+            }
+            
+            string hashedPassword = HashPassword(password);
+            ViewData["Password"] = password;
+            ViewData["HashedPassword"] = hashedPassword;
+            
+            return View();
         }
     }
 }

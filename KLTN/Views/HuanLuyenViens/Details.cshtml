@@ -1,78 +1,119 @@
 ﻿@model KLTN.Models.Database.HuanLuyenVien
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Chi tiết huấn luyện viên";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h1>Details</h1>
+<div class="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 mb-6">
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Chi tiết huấn luyện viên</h1>
+        <div>
+            <a asp-action="Edit" asp-route-id="@Model?.MaPT" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 font-medium">
+                <i class="bi bi-pencil-square mr-2"></i>Chỉnh sửa
+            </a>
+            <a asp-action="Index" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 focus:ring-4 focus:ring-gray-300 font-medium ml-2">
+                <i class="bi bi-arrow-left mr-2"></i>Quay lại
+            </a>
+        </div>
+    </div>
 
-<div>
-    <h4>HuanLuyenVien</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.HoTen)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.HoTen)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.NgaySinh)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.NgaySinh)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.GioiTinh)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.GioiTinh)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.SoDienThoai)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.SoDienThoai)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Email)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ChuyenMon)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ChuyenMon)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.KinhNghiem)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.KinhNghiem)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DiaChi)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DiaChi)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.TrangThaiHLV)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.TrangThaiHLV)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.TaiKhoan)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.TaiKhoan.MatKhauHash)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.MaPT">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="bg-gray-50 dark:bg-gray-700 p-6 rounded-lg shadow-sm">
+            <h3 class="text-lg font-semibold mb-4 text-gray-900 dark:text-white">Thông tin cá nhân</h3>
+            
+            <div class="mb-4">
+                <p class="text-sm text-gray-500 dark:text-gray-400">Họ tên</p>
+                <p class="text-base text-gray-900 dark:text-white font-medium">@Model.HoTen</p>
+            </div>
+            
+            <div class="mb-4">
+                <p class="text-sm text-gray-500 dark:text-gray-400">Ngày sinh</p>
+                <p class="text-base text-gray-900 dark:text-white font-medium">
+                    @(Model.NgaySinh.HasValue ? Model.NgaySinh.Value.ToString("dd/MM/yyyy") : "Chưa cập nhật")
+                </p>
+            </div>
+            
+            <div class="mb-4">
+                <p class="text-sm text-gray-500 dark:text-gray-400">Giới tính</p>
+                <p class="text-base text-gray-900 dark:text-white font-medium">
+                    @(string.IsNullOrEmpty(Model.GioiTinh) ? "Chưa cập nhật" : Model.GioiTinh)
+                </p>
+            </div>
+            
+            <div class="mb-4">
+                <p class="text-sm text-gray-500 dark:text-gray-400">Số điện thoại</p>
+                <p class="text-base text-gray-900 dark:text-white font-medium">
+                    @(string.IsNullOrEmpty(Model.SoDienThoai) ? "Chưa cập nhật" : Model.SoDienThoai)
+                </p>
+            </div>
+            
+            <div class="mb-4">
+                <p class="text-sm text-gray-500 dark:text-gray-400">Email</p>
+                <p class="text-base text-gray-900 dark:text-white font-medium">
+                    @(string.IsNullOrEmpty(Model.Email) ? "Chưa cập nhật" : Model.Email)
+                </p>
+            </div>
+            
+            <div class="mb-4">
+                <p class="text-sm text-gray-500 dark:text-gray-400">Địa chỉ</p>
+                <p class="text-base text-gray-900 dark:text-white font-medium">
+                    @(string.IsNullOrEmpty(Model.DiaChi) ? "Chưa cập nhật" : Model.DiaChi)
+                </p>
+            </div>
+        </div>
+        
+        <div class="bg-gray-50 dark:bg-gray-700 p-6 rounded-lg shadow-sm">
+            <h3 class="text-lg font-semibold mb-4 text-gray-900 dark:text-white">Thông tin nghề nghiệp</h3>
+            
+            <div class="mb-4">
+                <p class="text-sm text-gray-500 dark:text-gray-400">Chuyên môn</p>
+                <p class="text-base text-gray-900 dark:text-white font-medium">
+                    @(string.IsNullOrEmpty(Model.ChuyenMon) ? "Chưa cập nhật" : Model.ChuyenMon)
+                </p>
+            </div>
+            
+            <div class="mb-4">
+                <p class="text-sm text-gray-500 dark:text-gray-400">Kinh nghiệm</p>
+                <p class="text-base text-gray-900 dark:text-white font-medium">
+                    @(string.IsNullOrEmpty(Model.KinhNghiem) ? "Chưa cập nhật" : Model.KinhNghiem)
+                </p>
+            </div>
+            
+            <div class="mb-4">
+                <p class="text-sm text-gray-500 dark:text-gray-400">Trạng thái</p>
+                <div class="mt-1">
+                    @if (Model.TrangThaiHLV == "HoatDong")
+                    {
+                        <span class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">
+                            Hoạt động
+                        </span>
+                    }
+                    else if (Model.TrangThaiHLV == "ChoPheDuyet")
+                    {
+                        <span class="bg-yellow-100 text-yellow-800 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300">
+                            Chờ phê duyệt
+                        </span>
+                    }
+                    else if (Model.TrangThaiHLV == "Khoa")
+                    {
+                        <span class="bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">
+                            Khóa
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="bg-gray-100 text-gray-800 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300">
+                            @Model.TrangThaiHLV
+                        </span>
+                    }
+                </div>
+            </div>
+            
+            <div class="mb-4">
+                <p class="text-sm text-gray-500 dark:text-gray-400">Mã tài khoản</p>
+                <p class="text-base text-gray-900 dark:text-white font-medium">@Model.MaTK</p>
+            </div>
+        </div>
+    </div>
 </div>

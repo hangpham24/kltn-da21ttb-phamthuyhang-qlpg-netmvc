@@ -156,6 +156,63 @@ namespace KLTN.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        // POST: HuanLuyenViens/UpdateStatus/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UpdateStatus(int id, string status)
+        {
+            var huanLuyenVien = await _context.HuanLuyenViens
+                .Include(h => h.TaiKhoan)
+                .FirstOrDefaultAsync(m => m.MaPT == id);
+
+            if (huanLuyenVien == null)
+            {
+                return NotFound();
+            }
+
+            // Cập nhật trạng thái huấn luyện viên
+            huanLuyenVien.TrangThaiHLV = status;
+
+            // Cập nhật trạng thái tài khoản tương ứng
+            if (huanLuyenVien.TaiKhoan != null)
+            {
+                if (status == "HoatDong")
+                {
+                    huanLuyenVien.TaiKhoan.TrangThai = "HoatDong";
+                }
+                else if (status == "Khoa")
+                {
+                    huanLuyenVien.TaiKhoan.TrangThai = "Khoa";
+                }
+                else if (status == "ChoPheDuyet")
+                {
+                    huanLuyenVien.TaiKhoan.TrangThai = "ChuaKichHoat";
+                }
+            }
+
+            await _context.SaveChangesAsync();
+
+            string statusMessage = "";
+            switch (status)
+            {
+                case "HoatDong":
+                    statusMessage = "Huấn luyện viên đã được kích hoạt thành công.";
+                    break;
+                case "Khoa":
+                    statusMessage = "Huấn luyện viên đã bị khóa.";
+                    break;
+                case "ChoPheDuyet":
+                    statusMessage = "Huấn luyện viên đã được chuyển về trạng thái chờ phê duyệt.";
+                    break;
+                default:
+                    statusMessage = "Trạng thái huấn luyện viên đã được cập nhật.";
+                    break;
+            }
+
+            TempData["StatusMessage"] = statusMessage;
+            return RedirectToAction(nameof(Index));
+        }
+
         private bool HuanLuyenVienExists(int id)
         {
             return _context.HuanLuyenViens.Any(e => e.MaPT == id);

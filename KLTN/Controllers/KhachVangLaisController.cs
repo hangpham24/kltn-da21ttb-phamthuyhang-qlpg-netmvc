@@ -54,7 +54,7 @@ namespace KLTN.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("MaKVL,HoTen,SoDienThoai,Email,NgayGhiNhan,GhiChu,TrangThai")] KhachVangLai khachVangLai)
+        public async Task<IActionResult> Create([Bind("MaKVL,HoTen,SoDienThoai,Email,NgayGhiNhan,GhiChu,GiaTien")] KhachVangLai khachVangLai)
         {
             if (ModelState.IsValid)
             {
@@ -86,7 +86,7 @@ namespace KLTN.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("MaKVL,HoTen,SoDienThoai,Email,NgayGhiNhan,GhiChu,TrangThai")] KhachVangLai khachVangLai)
+        public async Task<IActionResult> Edit(int id, [Bind("MaKVL,HoTen,SoDienThoai,Email,NgayGhiNhan,GhiChu,GiaTien")] KhachVangLai khachVangLai)
         {
             if (id != khachVangLai.MaKVL)
             {

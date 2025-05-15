@@ -347,32 +347,26 @@ namespace KLTN.Controllers
         public async Task<IActionResult> Profile()
         {
             try 
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(userId) || !int.TryParse(userId, out int userIdInt))
             {
-                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                if (string.IsNullOrEmpty(userId) || !int.TryParse(userId, out int userIdInt))
+                return RedirectToAction("Login");
+            }
+
+                // Tìm tài khoản
+                var taiKhoan = await _context.TaiKhoans
+                    .Include(t => t.Quyen)
+                .Include(t => t.ThanhVien)
+                .Include(t => t.HuanLuyenVien)
+                .FirstOrDefaultAsync(t => t.MaTK == userIdInt);
+
+                if (taiKhoan == null)
                 {
-                    return RedirectToAction("Login");
+                    return NotFound("Không tìm thấy thông tin tài khoản.");
                 }
-
-                // Tìm trong bảng ThanhVien
-                var thanhVien = await _context.ThanhViens
-                    .FirstOrDefaultAsync(tv => tv.MaTK == userIdInt);
-
-                if (thanhVien != null)
-                {
-                    return View(thanhVien);
-                }
-
-                // Nếu không có trong ThanhVien, tìm trong HuanLuyenVien
-                var huanLuyenVien = await _context.HuanLuyenViens
-                    .FirstOrDefaultAsync(hlv => hlv.MaTK == userIdInt);
-
-                if (huanLuyenVien != null)
-                {
-                    return View("ProfileHLV", huanLuyenVien);
-                }
-
-                return NotFound("Không tìm thấy thông tin người dùng.");
+                
+                return View(taiKhoan);
             }
             catch (Exception ex)
             {
@@ -390,26 +384,58 @@ namespace KLTN.Controllers
                 return RedirectToAction("Login");
             }
 
+            // Kiểm tra vai trò người dùng
+            var roleId = (await _context.TaiKhoans.FindAsync(userIdInt))?.MaQuyen;
+            var roleName = roleId != null ? (await _context.Quyens.FindAsync(roleId))?.TenQuyen : null;
+
             // Lấy thông tin thành viên
             var thanhVien = await _context.ThanhViens
                 .FirstOrDefaultAsync(tv => tv.MaTK == userIdInt);
 
-            if (thanhVien == null)
+            if (thanhVien != null)
             {
-                return NotFound("Không tìm thấy thông tin thành viên.");
+                // Lấy danh sách đăng ký của thành viên
+                var dangKys = await _context.DangKys
+                    .Include(dk => dk.GoiTap)
+                    .Include(dk => dk.LopHoc)
+                    .Include(dk => dk.ThanhToans)
+                    .Include(dk => dk.GiaHanDangKys)
+                    .Where(dk => dk.MaTV == thanhVien.MaTV)
+                    .OrderByDescending(dk => dk.NgayDangKy)
+                    .ToListAsync();
+
+                return View(dangKys);
+            }
+            
+            // Kiểm tra nếu là huấn luyện viên
+            var huanLuyenVien = await _context.HuanLuyenViens
+                .FirstOrDefaultAsync(hlv => hlv.MaTK == userIdInt);
+            
+            if (huanLuyenVien != null)
+            {
+                // Lấy danh sách lớp học do huấn luyện viên phụ trách
+                var lopHocs = await _context.LopHoc
+                    .Where(lh => lh.MaPT == huanLuyenVien.MaPT)
+                    .ToListAsync();
+                
+                // Lấy danh sách đăng ký cho các lớp học này
+                var maLopHocs = lopHocs.Select(lh => lh.MaLop).ToList();
+                var dangKys = await _context.DangKys
+                    .Include(dk => dk.GoiTap)
+                    .Include(dk => dk.LopHoc)
+                    .Include(dk => dk.ThanhVien)
+                    .Include(dk => dk.ThanhToans)
+                    .Where(dk => maLopHocs.Contains(dk.MaLopHoc ?? 0))
+                    .OrderByDescending(dk => dk.NgayDangKy)
+                    .ToListAsync();
+                
+                // Sử dụng cùng một View nhưng với danh sách đăng ký liên quan đến huấn luyện viên
+                return View(dangKys);
             }
 
-            // Lấy danh sách đăng ký của thành viên
-            var dangKys = await _context.DangKys
-                .Include(dk => dk.GoiTap)
-                .Include(dk => dk.LopHoc)
-                .Include(dk => dk.ThanhToans)
-                .Include(dk => dk.GiaHanDangKys)
-                .Where(dk => dk.MaTV == thanhVien.MaTV)
-                .OrderByDescending(dk => dk.NgayDangKy)
-                .ToListAsync();
-
-            return View(dangKys);
+            // Nếu không tìm thấy thông tin thành viên hoặc huấn luyện viên
+            // Trả về danh sách trống thay vì NotFound
+            return View(new List<DangKy>());
         }
 
         [HttpGet]
@@ -417,17 +443,17 @@ namespace KLTN.Controllers
         public async Task<IActionResult> EditProfile()
         {
             try
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(userId) || !int.TryParse(userId, out int userIdInt))
             {
-                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                if (string.IsNullOrEmpty(userId) || !int.TryParse(userId, out int userIdInt))
-                {
-                    return RedirectToAction("Login");
-                }
+                return RedirectToAction("Login");
+            }
 
                 EditProfileModel model = new EditProfileModel();
 
                 // Tìm trong bảng ThanhVien
-                var thanhVien = await _context.ThanhViens
+            var thanhVien = await _context.ThanhViens
                     .FirstOrDefaultAsync(t => t.MaTK == userIdInt);
 
                 if (thanhVien != null)
@@ -475,29 +501,29 @@ namespace KLTN.Controllers
             try
             {
                 if (!ModelState.IsValid)
-                {
-                    return View(model);
-                }
+            {
+                return View(model);
+            }
 
-                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                if (string.IsNullOrEmpty(userId) || !int.TryParse(userId, out int userIdInt))
-                {
-                    return RedirectToAction("Login");
-                }
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(userId) || !int.TryParse(userId, out int userIdInt))
+            {
+                return RedirectToAction("Login");
+            }
 
                 // Tìm trong bảng ThanhVien
-                var thanhVien = await _context.ThanhViens
-                    .FirstOrDefaultAsync(tv => tv.MaTK == userIdInt);
+            var thanhVien = await _context.ThanhViens
+                .FirstOrDefaultAsync(tv => tv.MaTK == userIdInt);
 
                 if (thanhVien != null)
-                {
-                    // Cập nhật thông tin thành viên
-                    thanhVien.HoTen = model.HoTen;
-                    thanhVien.NgaySinh = model.NgaySinh;
-                    thanhVien.GioiTinh = model.GioiTinh;
-                    thanhVien.SoDienThoai = model.SoDienThoai;
-                    thanhVien.Email = model.Email;
-                    thanhVien.DiaChi = model.DiaChi;
+            {
+            // Cập nhật thông tin thành viên
+            thanhVien.HoTen = model.HoTen;
+            thanhVien.NgaySinh = model.NgaySinh;
+            thanhVien.GioiTinh = model.GioiTinh;
+            thanhVien.SoDienThoai = model.SoDienThoai;
+            thanhVien.Email = model.Email;
+            thanhVien.DiaChi = model.DiaChi;
 
                     // Xử lý ảnh đại diện nếu có
                     if (model.AvatarFile != null && model.AvatarFile.Length > 0)
@@ -564,9 +590,9 @@ namespace KLTN.Controllers
                 }
 
                 // Nếu không tìm thấy trong cả hai bảng, tạo mới một bản ghi thành viên
-                var taiKhoan = await _context.TaiKhoans.FindAsync(userIdInt);
-                if (taiKhoan != null)
-                {
+            var taiKhoan = await _context.TaiKhoans.FindAsync(userIdInt);
+            if (taiKhoan != null)
+            {
                     string avatarPath = null;
                     if (model.AvatarFile != null && model.AvatarFile.Length > 0)
                     {
@@ -612,7 +638,7 @@ namespace KLTN.Controllers
             catch (Exception ex)
             {
                 TempData["ErrorMessage"] = "Đã xảy ra lỗi khi cập nhật thông tin: " + ex.Message;
-                return RedirectToAction("Profile");
+            return RedirectToAction("Profile");
             }
         }
 
@@ -675,6 +701,21 @@ namespace KLTN.Controllers
         {
             var hashOfInput = HashPassword(password);
             return hashOfInput.Equals(hashedPassword, StringComparison.OrdinalIgnoreCase);
+        }
+
+        // GET: Account/TestHashPassword
+        public IActionResult TestHashPassword(string password)
+        {
+            if (string.IsNullOrEmpty(password))
+            {
+                password = "mymytran@gmail.com"; // Mật khẩu mẫu để test
+            }
+            
+            string hashedPassword = HashPassword(password);
+            ViewData["Password"] = password;
+            ViewData["HashedPassword"] = hashedPassword;
+            
+            return View();
         }
     }
 } 

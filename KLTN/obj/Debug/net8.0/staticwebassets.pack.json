@@ -13,8 +13,24 @@
       "PackagePath": "staticwebassets\\favicon.ico"
     },
     {
+      "Id": "D:\\KLTN\\KLTN\\KLTN\\wwwroot\\img\\avt\\03e504df-991b-49e2-bbad-ebbb7051fa44.jpg",
+      "PackagePath": "staticwebassets\\img\\avt\\03e504df-991b-49e2-bbad-ebbb7051fa44.jpg"
+    },
+    {
+      "Id": "D:\\KLTN\\KLTN\\KLTN\\wwwroot\\img\\avt\\338199b0-fa3a-4341-b12e-3ebc09c5669b.png",
+      "PackagePath": "staticwebassets\\img\\avt\\338199b0-fa3a-4341-b12e-3ebc09c5669b.png"
+    },
+    {
+      "Id": "D:\\KLTN\\KLTN\\KLTN\\wwwroot\\img\\avt\\4204daa9-df57-4eda-b7d5-794798282b62.jpg",
+      "PackagePath": "staticwebassets\\img\\avt\\4204daa9-df57-4eda-b7d5-794798282b62.jpg"
+    },
+    {
       "Id": "D:\\KLTN\\KLTN\\KLTN\\wwwroot\\img\\avt\\7b5050f8-f437-4382-8c2d-759ae6b3ec89.jpg",
       "PackagePath": "staticwebassets\\img\\avt\\7b5050f8-f437-4382-8c2d-759ae6b3ec89.jpg"
+    },
+    {
+      "Id": "D:\\KLTN\\KLTN\\KLTN\\wwwroot\\img\\avt\\bfc4537a-6219-4804-8389-9240a0510d8b.jpg",
+      "PackagePath": "staticwebassets\\img\\avt\\bfc4537a-6219-4804-8389-9240a0510d8b.jpg"
     },
     {
       "Id": "D:\\KLTN\\KLTN\\KLTN\\wwwroot\\js\\site.js",

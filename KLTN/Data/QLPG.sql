@@ -44,8 +44,9 @@ CREATE TABLE KhachVangLai (
     SoDienThoai NVARCHAR(15),
     Email NVARCHAR(100),
     NgayGhiNhan DATE DEFAULT GETDATE(),
+    GiaTien DECIMAL(18,2),
     GhiChu NVARCHAR(500),
-    TrangThai NVARCHAR(20) DEFAULT N'HoatDong'
+    
 );
 
 -- Tạo bảng khuyến mãi
