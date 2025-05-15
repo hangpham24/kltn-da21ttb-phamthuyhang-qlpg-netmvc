@@ -1,0 +1,68 @@
+@model KLTN.Models.Authentication.LoginModel
+
+@{
+    ViewData["Title"] = "Đăng nhập";
+}
+
+<div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+    <div class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
+        <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
+            <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white text-center">
+                Đăng nhập vào tài khoản
+            </h1>
+            <form asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="space-y-4 md:space-y-6">
+                <div asp-validation-summary="ModelOnly" class="text-red-500 text-sm"></div>
+                
+                <div>
+                    <label asp-for="TenDangNhap" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tên đăng nhập</label>
+                    <input asp-for="TenDangNhap" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="username">
+                    <span asp-validation-for="TenDangNhap" class="text-red-500 text-sm"></span>
+                </div>
+                
+                <div>
+                    <label asp-for="Password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Mật khẩu</label>
+                    <input asp-for="Password" type="password" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="••••••••">
+                    <span asp-validation-for="Password" class="text-red-500 text-sm"></span>
+                </div>
+                
+                <div class="flex items-center justify-between">
+                    <div class="flex items-start">
+                        <div class="flex items-center h-5">
+                            <input asp-for="RememberMe" id="remember" aria-describedby="remember" type="checkbox" class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800">
+                        </div>
+                        <div class="ml-3 text-sm">
+                            <label asp-for="RememberMe" class="text-gray-500 dark:text-gray-300">Ghi nhớ đăng nhập</label>
+                        </div>
+                    </div>
+                    <a href="#" class="text-sm font-medium text-blue-600 hover:underline dark:text-blue-500">Quên mật khẩu?</a>
+                </div>
+                
+                <button type="submit" class="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Đăng nhập</button>
+                
+                <p class="text-sm font-light text-gray-500 dark:text-gray-400">
+                    Chưa có tài khoản? <a asp-controller="Account" asp-action="Register" class="font-medium text-blue-600 hover:underline dark:text-blue-500">Đăng ký ngay</a>
+                </p>
+                
+                <div class="inline-flex items-center justify-center w-full">
+                    <hr class="w-64 h-px my-2 bg-gray-200 border-0 dark:bg-gray-700">
+                    <span class="absolute px-3 font-medium text-gray-500 -translate-x-1/2 bg-white left-1/2 dark:text-white dark:bg-gray-800">hoặc</span>
+                </div>
+                
+                <div class="flex justify-center space-x-4">
+                    <button type="button" class="text-white bg-[#3b5998] hover:bg-[#3b5998]/90 focus:ring-4 focus:outline-none focus:ring-[#3b5998]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#3b5998]/55">
+                        <i class="bi bi-facebook mr-2"></i>
+                        Facebook
+                    </button>
+                    <button type="button" class="text-white bg-[#4285F4] hover:bg-[#4285F4]/90 focus:ring-4 focus:outline-none focus:ring-[#4285F4]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#4285F4]/55">
+                        <i class="bi bi-google mr-2"></i>
+                        Google
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+} 

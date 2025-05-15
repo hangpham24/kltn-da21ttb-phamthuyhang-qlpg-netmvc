@@ -1,0 +1,102 @@
+﻿@model KLTN.Models.Database.ThanhToan
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>ThanhToan</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.LoaiThanhToan)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.LoaiThanhToan)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.SoTien)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.SoTien)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.PhuongThucThanhToan)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PhuongThucThanhToan)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.NgayThanhToan)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.NgayThanhToan)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.TrangThai)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.TrangThai)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.GhiChu)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.GhiChu)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.MaGiaoDich)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.MaGiaoDich)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.DonViThanhToan)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.DonViThanhToan)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.TaiKhoanThanhToan)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.TaiKhoanThanhToan)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.HoaDonDienTuUrl)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.HoaDonDienTuUrl)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.DaXuatHoaDon)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.DaXuatHoaDon)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.NguoiThu)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.NguoiThu.MatKhauHash)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.DangKy)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.DangKy.LoaiDangKy)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.GiaHanDangKy)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.GiaHanDangKy.TrangThai)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.MaThanhToan">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

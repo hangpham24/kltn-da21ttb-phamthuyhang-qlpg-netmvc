@@ -1,0 +1,144 @@
+﻿@model IEnumerable<KLTN.Models.Database.ThanhVien>
+
+@{
+    ViewData["Title"] = "Danh sách thành viên";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<!-- Thêm Flowbite và Tailwind CSS CDN -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.css" rel="stylesheet" />
+<script src="https://cdn.tailwindcss.com"></script>
+
+<div class="px-4 py-5">
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-2xl font-bold text-gray-800">Danh sách thành viên</h1>
+        <a asp-action="Create" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:ring-4 focus:ring-blue-300">
+            <i class="fas fa-plus mr-2"></i>Thêm thành viên mới
+        </a>
+    </div>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div id="alert-success" class="flex items-center p-4 mb-4 text-green-800 rounded-lg bg-green-50">
+            <i class="fas fa-check-circle mr-2"></i>
+            <span class="font-medium">@TempData["SuccessMessage"]</span>
+            <button type="button" class="ml-auto -mx-1.5 -my-1.5 bg-green-50 text-green-500 rounded-lg focus:ring-2 focus:ring-green-400 p-1.5 hover:bg-green-200 inline-flex items-center justify-center h-8 w-8" data-dismiss-target="#alert-success" aria-label="Close">
+                <span class="sr-only">Đóng</span>
+                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                </svg>
+            </button>
+        </div>
+    }
+
+    <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+        <table class="w-full text-sm text-left text-gray-500">
+            <thead class="text-xs text-white uppercase bg-blue-600">
+                <tr>
+                    <th scope="col" class="px-6 py-3">
+                        @Html.DisplayNameFor(model => model.MaTV)
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        @Html.DisplayNameFor(model => model.HoTen)
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        @Html.DisplayNameFor(model => model.NgaySinh)
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        @Html.DisplayNameFor(model => model.GioiTinh)
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        @Html.DisplayNameFor(model => model.SoDienThoai)
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        @Html.DisplayNameFor(model => model.Email)
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        @Html.DisplayNameFor(model => model.DiaChi)
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Tài khoản
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Thao tác
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr class="bg-white border-b hover:bg-gray-50">
+                        <td class="p-4 w-4 text-center">@item.MaTV</td>
+                        <td class="p-3">
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0 h-10 w-10 mr-2">
+                                    @if (!string.IsNullOrEmpty(item.AnhDaiDien))
+                                    {
+                                        <img class="h-10 w-10 rounded-full object-cover" src="@item.AnhDaiDien" alt="@item.HoTen">
+                                    }
+                                    else
+                                    {
+                                        <div class="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center">
+                                            <span class="text-gray-500 text-xs font-bold">@(item.HoTen?.Substring(0, 1).ToUpper() ?? "U")</span>
+                                        </div>
+                                    }
+                                </div>
+                                <div>
+                                    <span class="font-medium">@item.HoTen</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4">
+                            @Html.DisplayFor(modelItem => item.NgaySinh)
+                        </td>
+                        <td class="px-6 py-4">
+                            @Html.DisplayFor(modelItem => item.GioiTinh)
+                        </td>
+                        <td class="px-6 py-4">
+                            @Html.DisplayFor(modelItem => item.SoDienThoai)
+                        </td>
+                        <td class="px-6 py-4">
+                            @Html.DisplayFor(modelItem => item.Email)
+                        </td>
+                        <td class="px-6 py-4">
+                            @Html.DisplayFor(modelItem => item.DiaChi)
+                        </td>
+                        <td class="px-6 py-4">
+                            @if (item.TaiKhoan != null)
+                            {
+                                <span class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded">
+                                    @item.TaiKhoan.TenDangNhap
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded">
+                                    Chưa có tài khoản
+                                </span>
+                            }
+                        </td>
+                        <td class="px-6 py-4 flex gap-2">
+                            <a asp-action="Edit" asp-route-id="@item.MaTV" class="font-medium text-blue-600 hover:underline">
+                                <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-xs px-3 py-1.5">
+                                    Sửa
+                                </button>
+                            </a>
+                            <a asp-action="Details" asp-route-id="@item.MaTV" class="font-medium text-blue-600 hover:underline">
+                                <button type="button" class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-xs px-3 py-1.5">
+                                    Chi tiết
+                                </button>
+                            </a>
+                            <a asp-action="Delete" asp-route-id="@item.MaTV" class="font-medium text-red-600 hover:underline">
+                                <button type="button" class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-xs px-3 py-1.5">
+                                    Xóa
+                                </button>
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.js"></script>

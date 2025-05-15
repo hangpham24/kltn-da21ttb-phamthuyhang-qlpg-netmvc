@@ -1,0 +1,59 @@
+﻿@model IEnumerable<KLTN.Models.Database.LichSuCheckIn>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ThoiGian)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.KetQuaNhanDien)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AnhNhanDien)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ThanhVien)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.KhachVangLai)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ThoiGian)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.KetQuaNhanDien)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AnhNhanDien)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ThanhVien.MaTV)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.KhachVangLai.MaKVL)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.MaCheckIn">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.MaCheckIn">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.MaCheckIn">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

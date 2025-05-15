@@ -1,0 +1,48 @@
+﻿@if (User.Identity?.IsAuthenticated == true)
+{
+    <button type="button" class="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
+        <span class="sr-only">Mở menu người dùng</span>
+        <img class="w-8 h-8 rounded-full" src="/img/avatar-default.png" alt="avatar">
+    </button>
+    <!-- Dropdown menu -->
+    <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600" id="user-dropdown">
+        <div class="px-4 py-3">
+            <span class="block text-sm text-gray-900 dark:text-white">@User.Identity?.Name</span>
+            <span class="block text-sm text-gray-500 truncate dark:text-gray-400">@User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.Email)?.Value</span>
+        </div>
+        <ul class="py-2" aria-labelledby="user-menu-button">
+            @if (User.IsInRole("Admin") || User.IsInRole("QuanLy"))
+            {
+                <li>
+                    <a asp-controller="Admin" asp-action="Index" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
+                        <i class="bi bi-speedometer2 me-2"></i>Quản trị hệ thống
+                    </a>
+                </li>
+            }
+            <li>
+                <a asp-controller="Account" asp-action="Profile" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
+                    <i class="bi bi-person me-2"></i>Thông tin cá nhân
+                </a>
+            </li>
+            <li>
+                <a asp-controller="Account" asp-action="Registrations" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
+                    <i class="bi bi-calendar-check me-2"></i>Lịch sử đăng ký
+                </a>
+            </li>
+            <li>
+                <form asp-controller="Account" asp-action="Logout" method="post">
+                    <button type="submit" class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
+                        <i class="bi bi-box-arrow-right me-2"></i>Đăng xuất
+                    </button>
+                </form>
+            </li>
+        </ul>
+    </div>
+}
+else
+{
+    <div class="flex items-center md:order-2">
+        <a asp-controller="Account" asp-action="Login" class="text-gray-800 dark:text-white hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 py-2 md:px-5 md:py-2.5 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800">Đăng nhập</a>
+        <a asp-controller="Account" asp-action="Register" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 md:px-5 md:py-2.5 ms-3 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Đăng ký</a>
+    </div>
+}

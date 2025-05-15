@@ -1,0 +1,60 @@
+﻿@model KLTN.Models.Database.GoiTap
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>GoiTap</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.TenGoi)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.TenGoi)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.TenGoiTap)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.TenGoiTap)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.MoTa)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.MoTa)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ThoiHanThang)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ThoiHanThang)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.GiaTien)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.GiaTien)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.SoLanTapToiDa)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.SoLanTapToiDa)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.KhuyenMai)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.KhuyenMai.TenKM)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.MaGoi">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

@@ -1,0 +1,10 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+
+# Your rule content
+
+
+- Đối với giao diện thì hãy sử dụng tailwind css của flowbite thông qua CDN

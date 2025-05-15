@@ -1,0 +1,54 @@
+﻿@model KLTN.Models.Database.PhienTap
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>PhienTap</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.NgayTap)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.NgayTap)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.GhiChu)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.GhiChu)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.TinhTrang)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.TinhTrang)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ThanhVien)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ThanhVien.MaTV)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.KhachVangLai)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.KhachVangLai.MaKVL)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.HuanLuyenVien)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.HuanLuyenVien.MaPT)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.MaPhien">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

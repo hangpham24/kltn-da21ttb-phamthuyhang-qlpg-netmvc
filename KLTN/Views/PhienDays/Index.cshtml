@@ -1,0 +1,89 @@
+﻿@model IEnumerable<KLTN.Models.Database.PhienDay>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.NgayDay)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GiaTriBuoiDay)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LoaiPhienDay)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LoaiDichVu)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TrangThai)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GhiChu)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HuanLuyenVien)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LopHoc)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GoiTap)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BangLuongPT)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.NgayDay)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GiaTriBuoiDay)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LoaiPhienDay)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LoaiDichVu)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TrangThai)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GhiChu)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HuanLuyenVien.MaPT)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LopHoc.NgayTrongTuan)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GoiTap.TenGoi)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BangLuongPT.MaLuong)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.MaPhienDay">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.MaPhienDay">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.MaPhienDay">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

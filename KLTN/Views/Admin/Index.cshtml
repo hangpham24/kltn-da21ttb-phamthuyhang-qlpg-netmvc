@@ -1,0 +1,163 @@
+@model KLTN.Models.ViewModels.AdminDashboardViewModel
+
+@{
+    ViewData["Title"] = "Bảng điều khiển";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="p-4 rounded-lg dark:border-gray-700">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
+        <div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 dark:bg-gray-800">
+            <div class="flex items-center">
+                <div class="flex-shrink-0">
+                    <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-900 dark:text-white">@Model.TotalMembers</span>
+                    <h3 class="text-base font-normal text-gray-500 dark:text-gray-400">Thành viên</h3>
+                </div>
+                <div class="ml-5 w-0 flex items-center justify-end flex-1 text-green-500 text-base font-bold">
+                    <i class="bi bi-person-vcard text-3xl"></i>
+                </div>
+            </div>
+        </div>
+        <div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 dark:bg-gray-800">
+            <div class="flex items-center">
+                <div class="flex-shrink-0">
+                    <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-900 dark:text-white">@Model.TotalTrainers</span>
+                    <h3 class="text-base font-normal text-gray-500 dark:text-gray-400">Huấn luyện viên</h3>
+                </div>
+                <div class="ml-5 w-0 flex items-center justify-end flex-1 text-blue-500 text-base font-bold">
+                    <i class="bi bi-person-badge text-3xl"></i>
+                </div>
+            </div>
+        </div>
+        <div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 dark:bg-gray-800">
+            <div class="flex items-center">
+                <div class="flex-shrink-0">
+                    <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-900 dark:text-white">@Model.TotalPackages</span>
+                    <h3 class="text-base font-normal text-gray-500 dark:text-gray-400">Gói tập</h3>
+                </div>
+                <div class="ml-5 w-0 flex items-center justify-end flex-1 text-purple-500 text-base font-bold">
+                    <i class="bi bi-box2 text-3xl"></i>
+                </div>
+            </div>
+        </div>
+        <div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 dark:bg-gray-800">
+            <div class="flex items-center">
+                <div class="flex-shrink-0">
+                    <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-900 dark:text-white">@Model.TotalRevenue.ToString("N0") VNĐ</span>
+                    <h3 class="text-base font-normal text-gray-500 dark:text-gray-400">Tổng doanh thu</h3>
+                </div>
+                <div class="ml-5 w-0 flex items-center justify-end flex-1 text-orange-500 text-base font-bold">
+                    <i class="bi bi-cash-coin text-3xl"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    @if (TempData["StatusMessage"] != null)
+    {
+        <div class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400">
+            <span>@TempData["StatusMessage"]</span>
+        </div>
+    }
+    
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400">
+            <span>@TempData["ErrorMessage"]</span>
+        </div>
+    }
+    
+    <div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 dark:bg-gray-800 mb-4">
+        <div class="mb-4 flex items-center justify-between">
+            <div>
+                <h3 class="text-xl font-bold text-gray-900 dark:text-white">Đăng ký gần đây</h3>
+                <span class="text-base font-normal text-gray-500 dark:text-gray-400">Danh sách đăng ký tập mới nhất</span>
+            </div>
+            <div class="flex-shrink-0">
+                <a href="/Admin/Registrations" class="text-sm font-medium text-cyan-600 hover:bg-gray-100 rounded-lg p-2 dark:text-cyan-500 dark:hover:bg-gray-700">Xem tất cả</a>
+            </div>
+        </div>
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                <thead class="bg-gray-50 dark:bg-gray-700">
+                    <tr>
+                        <th scope="col" class="p-4 text-left text-xs font-medium text-gray-500 uppercase dark:text-gray-400">
+                            Thành viên
+                        </th>
+                        <th scope="col" class="p-4 text-left text-xs font-medium text-gray-500 uppercase dark:text-gray-400">
+                            Loại đăng ký
+                        </th>
+                        <th scope="col" class="p-4 text-left text-xs font-medium text-gray-500 uppercase dark:text-gray-400">
+                            Ngày đăng ký
+                        </th>
+                        <th scope="col" class="p-4 text-left text-xs font-medium text-gray-500 uppercase dark:text-gray-400">
+                            Trạng thái
+                        </th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-800">
+                    @foreach (var item in Model.RecentRegistrations)
+                    {
+                        <tr class="hover:bg-gray-100 dark:hover:bg-gray-700">
+                            <td class="p-4 whitespace-nowrap text-sm font-normal text-gray-900 dark:text-white">
+                                @if (item.ThanhVien != null)
+                                {
+                                    @item.ThanhVien.HoTen
+                                }
+                                else if (item.KhachVangLai != null)
+                                {
+                                    @item.KhachVangLai.HoTen <span class="text-xs text-gray-500">(Khách vãng lai)</span>
+                                }
+                                else
+                                {
+                                    <span>Không xác định</span>
+                                }
+                            </td>
+                            <td class="p-4 whitespace-nowrap text-sm font-normal text-gray-900 dark:text-white">
+                                @if (item.GoiTap != null && item.LoaiDangKy == "GoiTap")
+                                {
+                                    @item.GoiTap.TenGoiTap <span class="text-xs text-gray-500">(Gói tập)</span>
+                                }
+                                else if (item.LopHoc != null && item.LoaiDangKy == "LopHoc")
+                                {
+                                    @item.LopHoc.TenLop <span class="text-xs text-gray-500">(Lớp học)</span>
+                                }
+                                else
+                                {
+                                    <span>Không xác định</span>
+                                }
+                            </td>
+                            <td class="p-4 whitespace-nowrap text-sm font-normal text-gray-900 dark:text-white">
+                                @item.NgayDangKy.ToString("dd/MM/yyyy")
+                            </td>
+                            <td class="p-4 whitespace-nowrap text-sm font-normal text-gray-900 dark:text-white">
+                                @if (item.TrangThai == "ConHieuLuc")
+                                {
+                                    <span class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">
+                                        Còn hiệu lực
+                                    </span>
+                                }
+                                else if (item.TrangThai == "HetHan")
+                                {
+                                    <span class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">
+                                        Hết hạn
+                                    </span>
+                                }
+                                else if (item.TrangThai == "DaHuy")
+                                {
+                                    <span class="bg-gray-100 text-gray-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300">
+                                        Đã hủy
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span>@item.TrangThai</span>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div> 

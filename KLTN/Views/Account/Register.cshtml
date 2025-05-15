@@ -1,0 +1,135 @@
+@model KLTN.Models.Authentication.RegisterModel
+
+@{
+    ViewData["Title"] = "Đăng ký tài khoản";
+}
+
+<div class="flex flex-col items-center justify-center px-6 py-8 mx-auto min-h-screen">
+    <div class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-2xl xl:p-0 dark:bg-gray-800 dark:border-gray-700">
+        <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
+            <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white text-center">
+                Tạo tài khoản mới
+            </h1>
+            <form asp-controller="Account" asp-action="Register" method="post" class="space-y-4" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="text-red-500 text-sm"></div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label asp-for="HoTen" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Họ và tên</label>
+                        <input asp-for="HoTen" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Nguyễn Văn A">
+                        <span asp-validation-for="HoTen" class="text-red-500 text-sm"></span>
+                    </div>
+
+                    <div>
+                        <label asp-for="QuyenDangKy" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Đăng ký với vai trò</label>
+                        <select asp-for="QuyenDangKy" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <option value="ThanhVien" selected>Thành viên</option>
+                            <option value="HuanLuyenVien">Huấn luyện viên</option>
+                        </select>
+                        <span asp-validation-for="QuyenDangKy" class="text-red-500 text-sm"></span>
+                    </div>
+
+                    <div>
+                        <label asp-for="TenDangNhap" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tên đăng nhập</label>
+                        <input asp-for="TenDangNhap" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="username">
+                        <span asp-validation-for="TenDangNhap" class="text-red-500 text-sm"></span>
+                    </div>
+
+                    <div>
+                        <label asp-for="Email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
+                        <input asp-for="Email" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@example.com">
+                        <span asp-validation-for="Email" class="text-red-500 text-sm"></span>
+                    </div>
+
+                    <div>
+                        <label asp-for="SoDienThoai" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Số điện thoại</label>
+                        <input asp-for="SoDienThoai" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="0912345678">
+                        <span asp-validation-for="SoDienThoai" class="text-red-500 text-sm"></span>
+                    </div>
+
+                    <div>
+                        <label asp-for="Password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Mật khẩu</label>
+                        <input asp-for="Password" type="password" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="••••••••">
+                        <span asp-validation-for="Password" class="text-red-500 text-sm"></span>
+                    </div>
+
+                    <div>
+                        <label asp-for="ConfirmPassword" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Xác nhận mật khẩu</label>
+                        <input asp-for="ConfirmPassword" type="password" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="••••••••">
+                        <span asp-validation-for="ConfirmPassword" class="text-red-500 text-sm"></span>
+                    </div>
+
+                    <div class="md:col-span-2">
+                        <label asp-for="AvatarFile" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ảnh đại diện</label>
+                        <input asp-for="AvatarFile" type="file" accept="image/*" class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400">
+                        <p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">SVG, PNG, JPG hoặc GIF (Tối đa 2MB).</p>
+                        <span asp-validation-for="AvatarFile" class="text-red-500 text-sm"></span>
+                    </div>
+
+                    <div class="flex items-start pt-2">
+                        <div class="flex items-center h-5">
+                            <input id="terms" aria-describedby="terms" type="checkbox" class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800" required>
+                        </div>
+                        <div class="ml-3 text-sm">
+                            <label for="terms" class="font-light text-gray-500 dark:text-gray-300">Tôi đồng ý với <a class="font-medium text-blue-600 hover:underline dark:text-blue-500" href="#">Điều khoản và Điều kiện</a></label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Thông tin bổ sung cho Huấn luyện viên -->
+                <div id="thongTinHLV" class="hidden space-y-4 p-4 border border-gray-200 rounded-lg dark:border-gray-700">
+                    <h3 class="text-md font-medium text-gray-900 dark:text-white">Thông tin huấn luyện viên</h3>
+                    
+                    <div>
+                        <label asp-for="ChuyenMon" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Chuyên môn</label>
+                        <input asp-for="ChuyenMon" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Yoga, Fitness, Cardio...">
+                    </div>
+                </div>
+
+                <div class="flex flex-col space-y-4">
+                    <button type="submit" class="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Đăng ký tài khoản</button>
+                    
+                    <div class="flex justify-center space-x-4">
+                        <button type="button" class="text-white bg-[#3b5998] hover:bg-[#3b5998]/90 focus:ring-4 focus:outline-none focus:ring-[#3b5998]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#3b5998]/55">
+                            <i class="bi bi-facebook mr-2"></i>
+                            Facebook
+                        </button>
+                        <button type="button" class="text-white bg-[#4285F4] hover:bg-[#4285F4]/90 focus:ring-4 focus:outline-none focus:ring-[#4285F4]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#4285F4]/55">
+                            <i class="bi bi-google mr-2"></i>
+                            Google
+                        </button>
+                    </div>
+
+                    <p class="text-sm font-light text-gray-500 dark:text-gray-400 text-center">
+                        Đã có tài khoản? <a asp-controller="Account" asp-action="Login" class="font-medium text-blue-600 hover:underline dark:text-blue-500">Đăng nhập ngay</a>
+                    </p>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        // Hiển thị/ẩn thông tin bổ sung cho huấn luyện viên
+        document.addEventListener('DOMContentLoaded', function() {
+            const quyenSelect = document.getElementById('QuyenDangKy');
+            const thongTinHLV = document.getElementById('thongTinHLV');
+            
+            // Kiểm tra ban đầu
+            toggleHLVInfo();
+            
+            // Thêm sự kiện khi thay đổi lựa chọn
+            quyenSelect.addEventListener('change', toggleHLVInfo);
+            
+            function toggleHLVInfo() {
+                if (quyenSelect.value === 'HuanLuyenVien') {
+                    thongTinHLV.classList.remove('hidden');
+                } else {
+                    thongTinHLV.classList.add('hidden');
+                }
+            }
+        });
+    </script>
+} 
